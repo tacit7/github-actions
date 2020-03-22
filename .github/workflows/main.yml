@@ -1,0 +1,54 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+
+      - uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Install Dependencies
+        run: |
+          gem install bundler
+
+      - name: Install Gems
+        run: |
+          bundle install
+
+      - name: Run Tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:@localhost:5432/github_actions_test
+          RAILS_MASTER_KEY: ${{secrets.RAILS_MASTER_KEY}}
+
+        run: |
+          bundle exec rails db:prepare
+          bundle exec rails test
