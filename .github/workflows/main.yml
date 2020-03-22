@@ -52,3 +52,9 @@ jobs:
         run: |
           bundle exec rails db:prepare
           bundle exec rails test
+
+      - name: Create Coverage Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: coverage/
