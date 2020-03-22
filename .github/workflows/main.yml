@@ -59,3 +59,21 @@ jobs:
           name: code-coverage
           path: coverage/
 
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          separator: ","
+      - name: Install Brakeman
+        run: |
+          gem install brakeman
+          brakeman --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
