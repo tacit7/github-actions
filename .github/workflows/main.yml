@@ -73,4 +73,5 @@ jobs:
         run: |
           gem install bundler
           bundle install
+          mkdir tmp
           brakeman -f json > tmp/brakeman.json || exit 0
