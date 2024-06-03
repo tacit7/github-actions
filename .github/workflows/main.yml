@@ -69,15 +69,19 @@ jobs:
         with:
           ruby-version: 3.2.2
 
-      - name: Install Brakeman
-        run: |
-          gem install bundler
-          bundle install
-          mkdir tmp
-          brakeman -f json > tmp/brakeman.json || exit 0
-
-      - name: Create Security Artifact
-        uses: actions/upload-artifact@v2
+      - name: Run Brakeman
+        uses: artplan1/brakeman-action@v1.2.1
         with:
-          name: security-artifact
-          path: tmp/brakeman.json
+          flags: "--color"
+      # - name: Install Brakeman
+      #   run: |
+      #     gem install bundler
+      #     bundle install
+      #     mkdir tmp
+      #     brakeman -f json > tmp/brakeman.json || exit 0
+
+      # - name: Create Security Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: security-artifact
+      #     path: tmp/brakeman.json
