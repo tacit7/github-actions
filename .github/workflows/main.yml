@@ -76,7 +76,7 @@ jobs:
         env:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
           run: |
-            echo "$CHANGED_FILES"
+            echo "CHANGED $CHANGED_FILES"
       - name: Run Brakeman
         uses: artplan1/brakeman-action@v1.2.1
         with:
