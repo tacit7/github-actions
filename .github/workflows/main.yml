@@ -68,8 +68,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.2
-
-      - name: Run Brakeman
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files_separator: ","
+      - name: Show files
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          run: |
+            echo $CHANGED_FILES
         uses: artplan1/brakeman-action@v1.2.1
         with:
           flags: "--color"
