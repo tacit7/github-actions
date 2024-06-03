@@ -71,7 +71,8 @@ jobs:
 
       - name: Install Brakeman
         run: |
-          bundle install brakeman
+          gem install bundler
+          bundle install
 
       - name: Run Brakeman
         run: |
