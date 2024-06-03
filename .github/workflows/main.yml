@@ -75,3 +75,9 @@ jobs:
           bundle install
           mkdir tmp
           brakeman -f json > tmp/brakeman.json || exit 0
+
+      - name: Create Security Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-artifact
+          path: tmp/brakeman.json
