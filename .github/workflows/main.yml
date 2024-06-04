@@ -78,19 +78,21 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           echo "CHANGED $CHANGED_FILES"
-      - name: Run Brakeman
-        uses: artplan1/brakeman-action@v1.2.1
-        with:
-          flags: --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
-      # - name: Install Brakeman
-      #   run: |
-      #     gem install bundler
-      #     bundle install
-      #     mkdir tmp
-      #     brakeman -f json > tmp/brakeman.json || exit 0
 
-      # - name: Create Security Artifact
-      #   uses: actions/upload-artifact@v2
+      # - name: Run Brakeman
+      #   uses: artplan1/brakeman-action@v1.2.1
       #   with:
-      #     name: security-artifact
-      #     path: tmp/brakeman.json
+      #     flags: --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
+      - name: Install Brakeman
+        run: |
+          gem install bundler
+          bundle install
+          mkdir tmp
+          brakeman -v
+          brakeman --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Create Security Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-artifact
+          path: tmp/brakeman.json
