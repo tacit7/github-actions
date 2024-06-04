@@ -23,6 +23,11 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
+    @posts = Post.all
+    username = params[:user][:name].downcase
+    password = params[:user][:password]
+
+    User.first.where("username = '" + username + "' AND password = '" + password + "'")
     @post = Post.new
   end
 
