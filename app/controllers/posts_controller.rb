@@ -5,8 +5,10 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
+    username = params[:user][:name].downcase
+    password = params[:user][:password]
 
-
+    User.first.where("username = '" + username + "' AND password = '" + password + "'")
   end
 
   # GET /posts/1 or /posts/1.json
