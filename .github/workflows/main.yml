@@ -81,7 +81,7 @@ jobs:
       - name: Run Brakeman
         uses: artplan1/brakeman-action@v1.2.1
         with:
-          flags: "--color --only-files ${{ steps.changed-files.outputs.all_changed_files }}"
+          flags: --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
       # - name: Install Brakeman
       #   run: |
       #     gem install bundler
