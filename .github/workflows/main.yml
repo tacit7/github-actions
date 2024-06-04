@@ -85,12 +85,15 @@ jobs:
       #     flags: --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
       - name: Install Brakeman
         run: |
-          gem install bundler
-          bundle install
-          mkdir tmp
-          brakeman -v
-          brakeman --color --only-files app/models/post.rb,app/models/user.rb,app/controllers/users_controller.rb
-          # brakeman --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
+          gem install brakeman
+
+          brakeman --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
+          # gem install bundler
+          # bundle install
+          # mkdir tmp
+          # brakeman -v
+          # brakeman --color --only-files app/models/post.rb,app/models/user.rb,app/controllers/users_controller.rb
+          # # brakeman --color --only-files ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Create Security Artifact
         uses: actions/upload-artifact@v2
